@@ -1,30 +1,29 @@
 "use client";
-import { signUpSchema } from "@/app/schemas/auth";
+
+import { loginSchema } from "@/app/schemas/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardContent,
 } from "@/components/ui/card";
 import {
-  Field,
-  FieldError,
   FieldGroup,
+  Field,
   FieldLabel,
+  FieldError,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 
-export default function SignUpPage() {
+export default function LoginPage() {
   const form = useForm({
-    resolver: zodResolver(signUpSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -34,10 +33,9 @@ export default function SignUpPage() {
     email,
     name,
     password,
-  }: z.infer<typeof signUpSchema>) {
-    await authClient.signUp.email({
+  }: z.infer<typeof loginSchema>) {
+    await authClient.signIn.email({
       email,
-      name,
       password,
     });
   }
@@ -45,29 +43,12 @@ export default function SignUpPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sign up</CardTitle>
-        <CardDescription>Create an account to get started</CardDescription>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>Login to get started right away</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-y-4">
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Full Name</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    placeholder="tom jerry"
-                    {...field}
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
             <Controller
               name="email"
               control={form.control}
@@ -104,7 +85,7 @@ export default function SignUpPage() {
                 </Field>
               )}
             />
-            <Button>Sign up</Button>
+            <Button>Login</Button>
           </FieldGroup>
         </form>
       </CardContent>
