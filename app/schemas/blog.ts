@@ -8,4 +8,5 @@ export const postSchema = z.object({
   content: z
     .string()
     .min(10, { message: "Name must be at least 10 characters" }),
+  image: z.instanceof(File),
 });

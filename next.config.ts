@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "lovable-mastiff-475.convex.cloud",
+        pathname: "/**",
+      },
       // {
       //   protocol: "https",
       //   hostname: "**", // 允许所有 https 域名
