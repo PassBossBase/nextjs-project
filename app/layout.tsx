@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/web/navbar";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ConvexClientProvider } from "@/components/web/ConvexClientProvider";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -49,6 +49,7 @@ export default function RootLayout({
           <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
+          <Toaster closeButton />
         </ThemeProvider>
       </body>
     </html>
