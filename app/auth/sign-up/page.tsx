@@ -17,10 +17,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 export default function SignUpPage() {
+  const [isPending, setTransition] = useTransition();
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -35,10 +40,21 @@ export default function SignUpPage() {
     name,
     password,
   }: z.infer<typeof signUpSchema>) {
-    await authClient.signUp.email({
-      email,
-      name,
-      password,
+    setTransition(async () => {
+      await authClient.signUp.email({
+        email,
+        name,
+        password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Logged in successfully");
+            router.push("/");
+          },
+          onError: (error) => {
+            toast.error(error.error.message);
+          },
+        },
+      });
     });
   }
 
@@ -104,7 +120,16 @@ export default function SignUpPage() {
                 </Field>
               )}
             />
-            <Button>Sign up</Button>
+            <Button disabled={isPending}>
+              {isPending ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <span>Sign up</span>
+              )}
+            </Button>
           </FieldGroup>
         </form>
       </CardContent>
