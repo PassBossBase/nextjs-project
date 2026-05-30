@@ -53,7 +53,13 @@ export default function CreateRoute() {
     <div className="py-12">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Create Post
+          <span className="text-red-500">C</span>
+          <span className="text-orange-500">r</span>
+          <span className="text-yellow-500 ">e</span>
+          <span className="text-green-500">a</span>
+          <span className="text-sky-500">t</span>
+          <span className="text-blue-500">e</span>
+          <span className="text-purple-500 pr-2"> Post</span>
         </h1>
         <p className="text-xl text-muted-foreground pt-4">
           Share your thougths with the big world
@@ -111,13 +117,13 @@ export default function CreateRoute() {
                     <FieldLabel>Image</FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      title="image"
                       type="file"
                       accept="image/*"
                       onChange={(event) => {
                         const file = event.target.files?.[0];
                         field.onChange(file);
                       }}
+                      placeholder=""
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />

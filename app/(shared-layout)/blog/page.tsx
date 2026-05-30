@@ -1,3 +1,4 @@
+import { commonImage } from "@/app/common";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -6,6 +7,9 @@ import { fetchQuery } from "convex/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const dynamic = "force-static";
+export const revalidate = 30;
 
 export default function BlogPage() {
   return (
@@ -34,20 +38,19 @@ export default function BlogPage() {
 async function LoadBlogList() {
   await new Promise((res) => setTimeout(res, 5000));
   const data = await fetchQuery(api.post.getPosts);
-  const backImage =
-    "https://images.unsplash.com/photo-1778510092958-c952c661b807?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((post) => {
         const { _id, title, body, imageUrl } = post;
         return (
           <Card key={_id} className="pt-0">
-            <div className="relative h-48 w-full overflow-hidden">
+            <div className="relative w-full h-52 overflow-hidden">
               <Image
                 fill
-                src={imageUrl ?? backImage}
+                src={imageUrl ?? commonImage}
                 alt="image"
-                className="rounded-t-lg"
+                className="rounded-t-lg w-full h-full object-cover"
               />
             </div>
             <CardContent>

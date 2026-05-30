@@ -45,7 +45,7 @@ export default function Navbar() {
                     toast.success("Logged out successfully");
                     router.push("/");
                   },
-                  onError: (error) => {
+                  onError: (error: { error: { message: string } }) => {
                     toast.error(error.error.message);
                   },
                 },

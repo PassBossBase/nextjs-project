@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import z from "zod";
 
 export default function LoginPage() {
   const [isPending, setTransition] = useTransition();
@@ -45,7 +46,7 @@ export default function LoginPage() {
             toast.success("Logged in successfully");
             router.push("/");
           },
-          onError: (error) => {
+          onError: (error: { error: { message: string } }) => {
             toast.error(error.error.message);
           },
         },
