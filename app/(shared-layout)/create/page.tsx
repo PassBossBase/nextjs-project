@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUploadField from "@/components/web/InputUploadPreview";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -44,7 +45,7 @@ export default function CreateRoute() {
       //   title,
       // });
       await createBlogAction(values);
-      toast.success("The blog has been successfully created.");
+      toast.success("successfully created");
       router.push("/");
     });
   }
@@ -115,15 +116,13 @@ export default function CreateRoute() {
                 render={({ field, fieldState }) => (
                   <Field>
                     <FieldLabel>Image</FieldLabel>
-                    <Input
-                      aria-invalid={fieldState.invalid}
-                      type="file"
-                      accept="image/*"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        field.onChange(file);
-                      }}
-                      placeholder=""
+                    <ImageUploadField
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={fieldState.error}
+                      existingImageUrl={null} // 编辑时传入已有图片 URL
+                      placeholder="点击上传图片"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
