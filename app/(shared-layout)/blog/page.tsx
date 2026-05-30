@@ -8,9 +8,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Metadata } from "next";
+import { connection } from "next/server";
+import { cacheLife, cacheTag } from "next/cache";
 
-export const dynamic = "force-static";
-export const revalidate = 30;
+export const metadata: Metadata = {
+  title: "Blog | Next.js 16",
+  description: "Read our latest article",
+  category: "Web development",
+  authors: [{ name: "Noah Li" }],
+};
 
 export default function BlogPage() {
   return (
@@ -29,14 +35,18 @@ export default function BlogPage() {
           Insigths, Thoughts, and Trends from our team.
         </p>
       </div>
-      <Suspense fallback={<SkeletonLoadingUi />}>
-        <LoadBlogList />
-      </Suspense>
+      {/* <Suspense fallback={<SkeletonLoadingUi />}> */}
+      <LoadBlogList />
+      {/* </Suspense> */}
     </div>
   );
 }
 
 async function LoadBlogList() {
+  "use cache";
+
+  cacheLife("hours");
+  cacheTag("blog");
   await new Promise((res) => setTimeout(res, 5000));
   const data = await fetchQuery(api.post.getPosts);
 

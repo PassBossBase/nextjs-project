@@ -44,7 +44,7 @@ export default function CreateRoute() {
       //   title,
       // });
       await createBlogAction(values);
-      toast.success("Everything was fine");
+      toast.success("The blog has been successfully created.");
       router.push("/");
     });
   }

@@ -11,6 +11,7 @@ import CommentSection from "@/components/web/CommentSection";
 import { Metadata } from "next";
 import PostPresence from "@/components/web/PostPresence";
 import { getToken } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
 interface PostIdRouteProps {
   params: Promise<{ postId: Id<"posts"> }>;
@@ -36,7 +37,6 @@ export async function generateMetadata({
 
 export default async function PostIdRoute({ params }: PostIdRouteProps) {
   const { postId } = await params;
-
   const token = await getToken();
 
   const [post, preloadedComments, userId] = await Promise.all([
@@ -46,6 +46,10 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
     }),
     await fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
+
+  if (!userId) {
+    return redirect("/auth/login");
+  }
 
   if (!post) {
     return (
